@@ -8,7 +8,6 @@
 * {
   box-sizing: border-box;
   font-family: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
-  font-size: 1.15rem;
 }
 
 html {
@@ -95,6 +94,31 @@ body.invert #nav a:hover {
 #nav .nav-text-offer { display:none; }
 #nav.text-offer .nav-default { display:none; }
 #nav.text-offer .nav-text-offer { display:inline; }
+
+#help-overlay {
+  display: none;
+  position: fixed;
+  background: whitesmoke; 
+  font-size: 0.9em;
+  border: solid 1px silver;
+  border-radius: 6px;
+  color: #2a3d45;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 60%;
+  max-height: 60%;
+  padding: 20px;
+}
+
+#help-overlay p:first-child {
+  margin-top: 0;
+}
+
+#help-overlay a {
+  text-decoration: none;
+  color: dodgerblue;
+}
 </style>
 <script src="lzma.js"></script>
 <script>
@@ -135,6 +159,16 @@ document.addEventListener('DOMContentLoaded', function(){
     reader.readAsArrayBuffer(blob);
   });
 });
+
+function toggleHelp() {
+  var helpOverlay = document.getElementById('help-overlay');
+  helpOverlay.style.display = (helpOverlay.style.display === 'none' || helpOverlay.style.display === '') ? 'block' : 'none';
+}
+
+function helpOff() {
+  var helpOverlay = document.getElementById('help-overlay');
+  helpOverlay.style.display = 'none';
+}
 
 function url_generate(format) {
   var plaintext = document.getElementById("plaintext").innerHTML;
@@ -206,13 +240,35 @@ function moveCaretToEnd() {
 }
 
 function focusInput() {
+  helpOff();
   const editableDiv = document.getElementById('plaintext');
   editableDiv.focus();
 }
 </script>
 </head>
 <body>
-<div id="plaintext-wrapper" onclick="focusInput()"><div id="plaintext" role="textbox" onPaste="handlePaste(event)" spellcheck="false" contenteditable autofocus></div></div>
-<div id="nav"><span class="nav-default"><a class="nav-left" href="https://github.com/otherjoel/poest">[github]</a><a class="nav-left" onclick="invert()">[invert colors]</a><a onclick="url_generate('raw')">[make url]</a><a onclick="url_generate('markdown')">[markdown link]</a></span><span class="nav-text-offer"><input id="text-offer-value"/><a onclick="text_offer_copy()">[copy]</a><a onclick="text_offer_cancel()">[cancel]</a></span></div>
+<div id="plaintext-wrapper" onclick="focusInput()"><div id="plaintext" role="textbox" onclick="helpOff()" onPaste="handlePaste(event)" spellcheck="false" contenteditable autofocus></div></div>
+<div id="nav"><span class="nav-default"><a id="helpButton" class="nav-left" onclick="toggleHelp()">[help]</a><a class="nav-left" onclick="invert()">[invert colors]</a><a onclick="url_generate('raw')">[make url]</a><a onclick="url_generate('markdown')">[markdown link]</a></span><span class="nav-text-offer"><input id="text-offer-value"/><a onclick="text_offer_copy()">[copy]</a><a onclick="text_offer_cancel()">[cancel]</a></span></div>
+<div id="help-overlay">
+  <div id="help">
+    <p>
+      This is a paste service for poetry (or prose, if you like). Type or paste a poem 
+      into the main area, then tap “make url” or “markdown link” in the lower right to
+      get a shareable link.
+    </p>
+    <p>
+      When you generate a link, the contents of the editable area are compressed and stored
+      <em>in the link itself</em>. If you have the link, you have the writing that was shown
+      when the link was generated.
+    </p>
+    <p>
+      I made this tool because you should <a href="https://joeldueck.com/share-poems-like-memes.html">
+      share poems like memes</a>.
+    </p>
+    <p>
+      The source code for this page is <a href="https://github.com/otherjoel/poest">on GitHub</a>.
+    </p>
+  </div>
+</div>
 </body>
 </html>
