@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', function(){
         }
 
         document.getElementById("plaintext").innerHTML = plaintext;
+        moveCaretToEnd();
       });
     };
     reader.readAsArrayBuffer(blob);
@@ -170,15 +171,26 @@ function invert() {
 }
 
 function handlePaste(event) {
-      event.preventDefault();
+  event.preventDefault();
 
-      // Get plain text from the clipboard
-      const clipboardData = event.clipboardData || window.clipboardData;
-      const pastedText = clipboardData.getData('text/plain');
+  // Get plain text from the clipboard
+  const clipboardData = event.clipboardData || window.clipboardData;
+  const pastedText = clipboardData.getData('text/plain');
 
-      // Insert the plain text into the contenteditable div
-      document.execCommand('insertText', false, pastedText);
-    }
+  // Insert the plain text into the contenteditable div
+  document.execCommand('insertText', false, pastedText);
+  moveCaretToEnd();
+}
+
+function moveCaretToEnd() {
+  const editableDiv = document.getElementById('plaintext');
+  const range = document.createRange();
+  range.selectNodeContents(editableDiv);
+  range.collapse(false);
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
 </script>
 </head>
 <body>
