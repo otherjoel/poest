@@ -49,6 +49,8 @@ body.invert, body.invert #plaintext {
   bottom: 2em;
   display: grid;
   place-items: center;
+  overflow: auto;
+  max-height: 95vh;
 }
 #nav {
   position: absolute;
@@ -59,7 +61,7 @@ body.invert, body.invert #plaintext {
   line-height: 2em;
   text-align: right;
   vertical-align: middle;
-  background: #aaaaaa;
+  background: #bbbbbb;
   color: #2a3d45;
   white-space: nowrap;
 }
@@ -84,11 +86,13 @@ body.invert #nav a:hover {
   background: #999999;
 }
 #nav #text-offer-value {
+  font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
   border: 1px solid #999999;
   background: transparent;
-  width: calc(100vw - 11em);
+  width: calc(100vw - 8em);
   text-overflow: ellipsis;
   color: inherit;
+  margin-left: 5px;
   margin-right: 5px;
 }
 #nav .nav-text-offer { display:none; }
